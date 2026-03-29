@@ -25,57 +25,57 @@ class RendezVousCrudController extends AbstractController
     #[Route('/new', name: 'admin_rendezvous_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $rendezVou = new RendezVous();
-        $form = $this->createForm(RendezVousType::class, $rendezVou);
+        $rendezVous = new RendezVous();
+        $form = $this->createForm(RendezVousType::class, $rendezVous);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($rendezVou);
+            $entityManager->persist($rendezVous);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_rendezvous_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_rendezvous_index');
         }
 
         return $this->render('admin/rendezvous/new.html.twig', [
-            'rendez_vou' => $rendezVou,
+            'rendez_vou' => $rendezVous,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'admin_rendezvous_show', methods: ['GET'])]
-    public function show(RendezVous $rendezVou): Response
+    public function show(RendezVous $rendezVous): Response
     {
         return $this->render('admin/rendezvous/show.html.twig', [
-            'rendez_vou' => $rendezVou,
+            'rendez_vou' => $rendezVous,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'admin_rendezvous_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, RendezVous $rendezVou, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, RendezVous $rendezVous, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(RendezVousType::class, $rendezVou);
+        $form = $this->createForm(RendezVousType::class, $rendezVous);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_rendezvous_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_rendezvous_index');
         }
 
         return $this->render('admin/rendezvous/edit.html.twig', [
-            'rendez_vou' => $rendezVou,
+            'rendez_vou' => $rendezVous,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'admin_rendezvous_delete', methods: ['POST'])]
-    public function delete(Request $request, RendezVous $rendezVou, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, RendezVous $rendezVous, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$rendezVou->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($rendezVou);
+        if ($this->isCsrfTokenValid('delete'.$rendezVous->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($rendezVous);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_rendezvous_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_rendezvous_index');
     }
 }
